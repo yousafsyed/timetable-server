@@ -1,0 +1,30 @@
+version: '3.7'
+services:
+    nodejs:
+      build:
+        context: ./nodejs
+      expose:
+        - 3000
+      ports:
+        - "3000:3000"
+      networks:
+        - scheduler
+      volumes:
+        - ../:/var/www/app/
+    mongodb:
+      image: mongo:latest
+      environment:
+        MONGO_INITDB_ROOT_USERNAME: root
+        MONGO_INITDB_ROOT_PASSWORD: rootpassword
+        MONGO_INITDB_DATABASE: nest
+      ports:
+        - 27017:27017
+      networks:
+        - scheduler
+      volumes:
+        - mongodb_data_container:/data/db
+
+volumes:
+  mongodb_data_container:
+networks:
+  scheduler: ~
