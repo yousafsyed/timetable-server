@@ -5,13 +5,13 @@ export type ScheduleDocument = Schedules & Document;
 
 @Schema()
 export class Schedules {
-  @Prop()
+  @Prop({ required: true, index: true })
   dateTime: Date;
 
-  @Prop()
+  @Prop({ required: true })
   scheduleDescription: string;
 
-  @Prop()
+  @Prop({ required: true })
   scheduleStatus: number;
 }
 

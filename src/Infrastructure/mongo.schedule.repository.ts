@@ -26,14 +26,14 @@ export class MongoScheduleRepository implements ScheduleRepository {
   async persist(schedule: Schedule): Promise<Schedule> {
     return new Promise<Schedule>(async (resolve, reject) => {
       try {
-        await this.model.updateOne(
-          {
-            dateTime: schedule.getDateTime().value(),
-          },
-          schedule.toJSON(),
-          { upsert: true },
+        const doc = await this.model.create(schedule.toJSON());
+        resolve(
+          new Schedule(
+            new ScheduleDateTime(doc.dateTime),
+            new ScheduleDescription(doc.scheduleDescription),
+            doc.scheduleStatus,
+          ),
         );
-        resolve(schedule);
       } catch (err) {
         reject(err);
       }
