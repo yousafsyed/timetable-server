@@ -1,10 +1,10 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { Schedule } from 'src/Domain/schedule';
-import { SCHEDULE_REPOSITORY_TOKEN } from 'src/Domain/schedule.respository';
-import { ScheduleRepository } from 'src/Domain/schedule.respository';
+import { Schedule } from '../Domain/schedule';
+import { SCHEDULE_REPOSITORY_TOKEN } from '../Domain/schedule.respository';
+import { ScheduleRepository } from '../Domain/schedule.respository';
 import { CreateScheduleRequest } from './CreateScheduleRequest';
-import { ScheduleDateTime } from 'src/Domain/ValueObjects/schedule.date.time';
-import { ScheduleDescription } from 'src/Domain/ValueObjects/schedule.description';
+import { ScheduleDateTime } from '../Domain/ValueObjects/schedule.date.time';
+import { ScheduleDescription } from '../Domain/ValueObjects/schedule.description';
 
 @Injectable()
 export class CreateScheduleUseCase {

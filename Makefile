@@ -8,8 +8,8 @@ dev:
 	@docker-compose -p ${COMPONENT} -f ops/docker-compose.yaml up -d
 	@sleep 2
 
-test:
-	@docker exec -t ${COMPONENT}_${CODE_CONTAINER}_1 ${APP_ROOT}/ops/scripts/test.sh
+command:
+	@docker exec -t ${COMPONENT}_${CODE_CONTAINER}_1 $(s)
 
 enter:
 	@./ops/scripts/enter.sh ${COMPONENT} $(s)

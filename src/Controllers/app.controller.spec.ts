@@ -15,8 +15,8 @@ describe('AppController', () => {
   });
 
   describe('root', () => {
-    it('should return "Hello World!"', () => {
-      expect(appController.getHello()).toBe('Hello World!');
+    it('should return "Welcome to schedule manager"', () => {
+      expect(appController.getHello()).toBe('Welcome to schedule manager');
     });
   });
 });

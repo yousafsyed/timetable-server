@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { CreateScheduleUseCase } from 'src/Application/CreateScheduleUseCase';
+import { CreateScheduleUseCase } from '../../Application/CreateScheduleUseCase';
 import { CreateScheduleHandler } from './CreateScheduleHandler';
-import { MongoScheduleRepository } from 'src/Infrastructure/mongo.schedule.repository';
-import { SCHEDULE_REPOSITORY_TOKEN } from 'src/Domain/schedule.respository';
+import { MongoScheduleRepository } from '../../Infrastructure/mongo.schedule.repository';
+import { SCHEDULE_REPOSITORY_TOKEN } from '../../Domain/schedule.respository';
 
 import {
   ScheduleSchema,
   Schedules,
-} from 'src/Infrastructure/schema/schedule.schema';
+} from '../../Infrastructure/schema/schedule.schema';
 
 @Module({
   imports: [

@@ -2,11 +2,11 @@ import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { Injectable } from '@nestjs/common';
 import { ScheduleDocument, Schedules } from './schema/schedule.schema';
-import { ScheduleRepository } from 'src/Domain/schedule.respository';
-import { Schedule } from 'src/Domain/schedule';
-import { ScheduleDateTime } from 'src/Domain/ValueObjects/schedule.date.time';
-import { ScheduleDescription } from 'src/Domain/ValueObjects/schedule.description';
-import { ScheduleStatus } from 'src/Domain/ValueObjects/schedule.status';
+import { ScheduleRepository } from '../Domain/schedule.respository';
+import { Schedule } from '../Domain/schedule';
+import { ScheduleDateTime } from '../Domain/ValueObjects/schedule.date.time';
+import { ScheduleDescription } from '../Domain/ValueObjects/schedule.description';
+import { ScheduleStatus } from '../Domain/ValueObjects/schedule.status';
 
 @Injectable()
 export class MongoScheduleRepository implements ScheduleRepository {
