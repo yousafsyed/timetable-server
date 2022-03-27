@@ -1,6 +1,6 @@
-import { ScheduleDescription } from './ValueObjects/schedule.description';
-import { ScheduleDateTime } from './ValueObjects/schedule.date.time';
-import { ScheduleStatus } from './ValueObjects/schedule.status';
+import { ScheduleDescription } from './ValueObjects/ScheduleDescription';
+import { ScheduleDateTime } from './ValueObjects/ScheduleDateTime';
+import { ScheduleStatus } from './ValueObjects/ScheduleStatus';
 
 export type ScheduleDTO = {
   dateTime: Date;

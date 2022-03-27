@@ -1,7 +1,7 @@
 import { Controller, UseFilters, Body, Post } from '@nestjs/common';
 import { CreateScheduleUseCase } from '../../Application/CreateScheduleUseCase';
 import { CreateScheduleRequest } from '../../Application/CreateScheduleRequest';
-import { Schedule } from '../../Domain/schedule';
+import { Schedule } from '../../Domain/Schedule';
 import { MongoErrorFilters } from '../../Infrastructure/ExceptionFilters/MongoErrorFilters';
 
 @Controller()

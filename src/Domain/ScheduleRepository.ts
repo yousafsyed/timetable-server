@@ -1,4 +1,4 @@
-import { Schedule } from './schedule';
+import { Schedule } from './Schedule';
 export const SCHEDULE_REPOSITORY_TOKEN = Symbol('ScheduleRepository');
 export interface ScheduleRepository {
   getScheduleByMonth(dateTime: Date): Schedule[];
