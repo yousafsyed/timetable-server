@@ -16,7 +16,9 @@ export enum ScheduleableHour {
 export const ScheduleableHourList: Array<number> = Object.entries(
   ScheduleableHour,
 )
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   .filter(([key, value]) => {
     return typeof value === 'number';
   })
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   .map(([key, value]): number => <number>value);
