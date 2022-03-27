@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 
-export type ScheduleDocument = Schedules & Document;
+export type ScheduleDocument = ScheduleModel & Document;
 
 @Schema()
-export class Schedules {
+export class ScheduleModel {
   @Prop({ required: true, index: true })
   dateTime: Date;
 
@@ -15,4 +15,4 @@ export class Schedules {
   scheduleStatus: number;
 }
 
-export const ScheduleSchema = SchemaFactory.createForClass(Schedules);
+export const ScheduleSchema = SchemaFactory.createForClass(ScheduleModel);
