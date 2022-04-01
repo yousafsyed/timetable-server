@@ -1,26 +1,24 @@
 import { ScheduleDescription } from './ValueObjects/ScheduleDescription';
 import { ScheduleDateTime } from './ValueObjects/ScheduleDateTime';
 import { ScheduleStatus } from './ValueObjects/ScheduleStatus';
+import { ScheduleId } from './ValueObjects/ScheduleId';
+import { UserId } from './ValueObjects/UserId';
 
 export type ScheduleDTO = {
+  scheduleId: string;
   dateTime: Date;
   scheduleDescription: string;
   scheduleStatus: number;
+  userId: string;
 };
 export class Schedule {
-  private dateTime: ScheduleDateTime;
-  private scheduleDescription: ScheduleDescription;
-  private scheduleStatus: ScheduleStatus;
-
   constructor(
-    dateTime: ScheduleDateTime,
-    scheduleDescription: ScheduleDescription,
-    scheduleStatus: ScheduleStatus,
-  ) {
-    this.dateTime = dateTime;
-    this.scheduleDescription = scheduleDescription;
-    this.scheduleStatus = scheduleStatus;
-  }
+    private scheduleId: ScheduleId,
+    private dateTime: ScheduleDateTime,
+    private scheduleDescription: ScheduleDescription,
+    private scheduleStatus: ScheduleStatus,
+    private userId: UserId,
+  ) {}
 
   getDateTime(): ScheduleDateTime {
     return this.dateTime;
@@ -28,9 +26,11 @@ export class Schedule {
 
   toJSON(): ScheduleDTO {
     return {
+      scheduleId: this.scheduleId.value(),
       dateTime: this.dateTime.value(),
       scheduleDescription: this.scheduleDescription.value(),
       scheduleStatus: this.scheduleStatus,
+      userId: this.userId.value(),
     };
   }
 }

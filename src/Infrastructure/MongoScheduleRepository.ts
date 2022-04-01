@@ -7,6 +7,8 @@ import { Schedule, ScheduleDTO } from '../Domain/Schedule';
 import { ScheduleDateTime } from '../Domain/ValueObjects/ScheduleDateTime';
 import { ScheduleDescription } from '../Domain/ValueObjects/ScheduleDescription';
 import { ScheduleStatus } from '../Domain/ValueObjects/ScheduleStatus';
+import { ScheduleId } from '../Domain/ValueObjects/ScheduleId';
+import { UserId } from '../Domain/ValueObjects/UserId';
 
 @Injectable()
 export class MongoScheduleRepository implements ScheduleRepository {
@@ -17,9 +19,11 @@ export class MongoScheduleRepository implements ScheduleRepository {
   getScheduleByMonth(dateTime: Date): Array<Schedule> {
     return [
       new Schedule(
+        new ScheduleId(''),
         new ScheduleDateTime(dateTime),
         new ScheduleDescription('sas'),
         ScheduleStatus.ABSENT,
+        new UserId(''),
       ),
     ];
   }
@@ -28,13 +32,7 @@ export class MongoScheduleRepository implements ScheduleRepository {
     return new Promise<Schedule>(async (resolve, reject) => {
       try {
         const doc = await this.model.create(schedule.toJSON());
-        resolve(
-          new Schedule(
-            new ScheduleDateTime(doc.dateTime),
-            new ScheduleDescription(doc.scheduleDescription),
-            doc.scheduleStatus,
-          ),
-        );
+        resolve(this.makeScheduleFromDocuement(doc));
       } catch (err) {
         reject(err);
       }
@@ -50,17 +48,23 @@ export class MongoScheduleRepository implements ScheduleRepository {
           }),
         );
         resolve(
-          docs.map((doc: ScheduleDTO): Schedule => {
-            return new Schedule(
-              new ScheduleDateTime(doc.dateTime),
-              new ScheduleDescription(doc.scheduleDescription),
-              doc.scheduleStatus,
-            );
+          docs.map((doc: ScheduleDocument): Schedule => {
+            return this.makeScheduleFromDocuement(doc);
           }),
         );
       } catch (err) {
         reject(err);
       }
     });
+  }
+
+  makeScheduleFromDocuement(doc: ScheduleDocument): Schedule {
+    return new Schedule(
+      new ScheduleId(doc._id),
+      new ScheduleDateTime(doc.dateTime),
+      new ScheduleDescription(doc.scheduleDescription),
+      doc.scheduleStatus,
+      new UserId(doc.userId),
+    );
   }
 }

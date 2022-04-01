@@ -5,7 +5,13 @@ export type ScheduleDocument = ScheduleModel & Document;
 
 @Schema()
 export class ScheduleModel {
-  @Prop({ required: true, index: true })
+  @Prop({ required: true })
+  _id: string;
+
+  @Prop({ required: true })
+  userId: string;
+
+  @Prop({ required: true })
   dateTime: Date;
 
   @Prop({ required: true })
@@ -15,4 +21,7 @@ export class ScheduleModel {
   scheduleStatus: number;
 }
 
-export const ScheduleSchema = SchemaFactory.createForClass(ScheduleModel);
+export const ScheduleSchema = SchemaFactory.createForClass(ScheduleModel).index(
+  { userId: 1, dateTime: 1 },
+  { unique: true },
+);

@@ -1,4 +1,5 @@
 import { ScheduleableHour } from './ValueObjects/ScheduleableHour';
+import { randomUUID } from 'crypto';
 import {
   IsEnum,
   IsString,
@@ -11,6 +12,8 @@ import { Schedule } from './Schedule';
 import { ScheduleDescription } from './ValueObjects/ScheduleDescription';
 import { ScheduleStatus } from './ValueObjects/ScheduleStatus';
 import { ScheduleDateTime } from './ValueObjects/ScheduleDateTime';
+import { ScheduleId } from './ValueObjects/ScheduleId';
+import { UserId } from './ValueObjects/UserId';
 export const SCHEDULE_COLLECTION_BUILDER_TOKEN = Symbol(
   'ScheduleCollectionBuilder',
 );
@@ -18,6 +21,7 @@ export type ScheduleCriteria = {
   startDate: Date;
   endDate: Date;
   weeklySchedule: Array<ScheduleByWeekDay>;
+  userId: UserId;
 };
 
 export enum WeekDay {
@@ -72,9 +76,11 @@ export class ScheduleCollectionBuilder {
               new Date(date.setHours(scheduleByHour.hour)),
             );
             const schedule = new Schedule(
+              new ScheduleId(randomUUID()),
               scheduleDateTime,
               new ScheduleDescription(scheduleByHour.description),
               ScheduleStatus.PENDING,
+              scheduleCriteria.userId,
             );
             return schedule;
           },
