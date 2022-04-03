@@ -11,6 +11,6 @@ export class LoginHandler {
   @UseGuards(LocalAuthGuard)
   @Post('auth/login')
   async login(@Request() req) {
-    return 'Logged in';
+    return this.usecase.getJwtToken(req.user);
   }
 }

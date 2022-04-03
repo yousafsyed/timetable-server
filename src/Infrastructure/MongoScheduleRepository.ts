@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Injectable } from '@nestjs/common';
 import { ScheduleDocument, ScheduleModel } from './Schema/ScheduleSchema';
 import { ScheduleRepository } from '../Domain/ScheduleRepository';
-import { Schedule, ScheduleDTO } from '../Domain/Schedule';
+import { Schedule } from '../Domain/Schedule';
 import { ScheduleDateTime } from '../Domain/ValueObjects/ScheduleDateTime';
 import { ScheduleDescription } from '../Domain/ValueObjects/ScheduleDescription';
 import { ScheduleStatus } from '../Domain/ValueObjects/ScheduleStatus';
@@ -36,8 +36,12 @@ export class MongoScheduleRepository implements ScheduleRepository {
 
   async bulkPersist(schedules: Schedule[]): Promise<Schedule[]> {
     const docs = await this.model.insertMany(
-      schedules.map((schedule: Schedule): ScheduleDTO => {
-        return schedule.toJSON();
+      schedules.map((schedule: Schedule) => {
+        const scheduleDto = schedule.toJSON();
+        return {
+          _id: scheduleDto.scheduleId,
+          ...scheduleDto,
+        };
       }),
     );
 

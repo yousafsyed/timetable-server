@@ -1,7 +1,8 @@
-import { Injectable, Inject, UnauthorizedException } from '@nestjs/common';
+import { Injectable, Inject } from '@nestjs/common';
 import { UserPublicDTO } from 'src/Domain/User';
 import { Email } from 'src/Domain/ValueObjects/Email';
 import { Password } from 'src/Domain/ValueObjects/Password';
+import { JwtService } from '@nestjs/jwt';
 import {
   UserRepository,
   USER_REPOSITORY_TOKEN,
@@ -12,6 +13,7 @@ export class LoginUseCase {
   constructor(
     @Inject(USER_REPOSITORY_TOKEN)
     private userRepo: UserRepository,
+    private jwtService: JwtService,
   ) {}
 
   async execute(req: LoginRequest): Promise<UserPublicDTO> {
@@ -20,5 +22,14 @@ export class LoginUseCase {
       return user.toJson();
     }
     throw new Error('Invalid User');
+  }
+
+  async getJwtToken(user: UserPublicDTO) {
+    return {
+      access_token: this.jwtService.sign({
+        username: user.email,
+        sub: user.userId,
+      }),
+    };
   }
 }
