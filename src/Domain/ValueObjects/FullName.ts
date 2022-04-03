@@ -1,8 +1,16 @@
-import util from 'util';
+import { format } from 'util';
 export class FullName {
   constructor(private firstName: string, private lastName: string) {}
 
-  public value(): string {
-    return util.format('%s %s', this.firstName, this.lastName);
+  public getFirstName(): string {
+    return this.firstName;
+  }
+
+  public getLastName(): string {
+    return this.lastName;
+  }
+
+  public getFullName(): string {
+    return format('%s %s', this.firstName, this.lastName);
   }
 }

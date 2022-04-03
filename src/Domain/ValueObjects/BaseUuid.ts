@@ -6,7 +6,7 @@ export abstract class BaseUuid {
   }
 
   private guardAgainstInvalidUuid() {
-    if (this.uuidRegex.test(this.id)) {
+    if (!this.uuidRegex.test(this.id)) {
       throw new Error('Invalid UUId');
     }
   }

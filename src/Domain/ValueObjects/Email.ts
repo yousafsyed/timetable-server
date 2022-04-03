@@ -6,7 +6,7 @@ export class Email {
   }
 
   private guardAgainstInvalidEmail() {
-    if (this.emailRegex.test(this.email)) {
+    if (!this.emailRegex.test(this.email)) {
       throw new Error('Invalid email');
     }
   }

@@ -29,32 +29,20 @@ export class MongoScheduleRepository implements ScheduleRepository {
   }
 
   async persist(schedule: Schedule): Promise<Schedule> {
-    return new Promise<Schedule>(async (resolve, reject) => {
-      try {
-        const doc = await this.model.create(schedule.toJSON());
-        resolve(this.makeScheduleFromDocuement(doc));
-      } catch (err) {
-        reject(err);
-      }
-    });
+    return this.makeScheduleFromDocuement(
+      await this.model.create(schedule.toJSON()),
+    );
   }
 
-  bulkPersist(schedules: Schedule[]): Promise<Schedule[]> {
-    return new Promise<Schedule[]>(async (resolve, reject) => {
-      try {
-        const docs = await this.model.insertMany(
-          schedules.map((schedule: Schedule): ScheduleDTO => {
-            return schedule.toJSON();
-          }),
-        );
-        resolve(
-          docs.map((doc: ScheduleDocument): Schedule => {
-            return this.makeScheduleFromDocuement(doc);
-          }),
-        );
-      } catch (err) {
-        reject(err);
-      }
+  async bulkPersist(schedules: Schedule[]): Promise<Schedule[]> {
+    const docs = await this.model.insertMany(
+      schedules.map((schedule: Schedule): ScheduleDTO => {
+        return schedule.toJSON();
+      }),
+    );
+
+    return docs.map((doc: ScheduleDocument): Schedule => {
+      return this.makeScheduleFromDocuement(doc);
     });
   }
 

@@ -32,10 +32,10 @@ ps:
 	@docker-compose -p ${COMPONENT} -f ops/docker-compose.yaml ps
 
 up:
-	docker-compose -f ops/docker-compose.yaml up -d
+	@docker-compose -p  ${COMPONENT} -f  ops/docker-compose.yaml up -d
 
 down:
-	docker-compose -f ops/docker-compose.yaml down
+	@docker-compose -p  ${COMPONENT} -f ops/docker-compose.yaml down
 
 nodejs:
-	docker-compose -f ops/docker-compose.yaml exec nodejs sh
+	@docker-compose -p  ${COMPONENT} -f ops/docker-compose.yaml exec nodejs bash

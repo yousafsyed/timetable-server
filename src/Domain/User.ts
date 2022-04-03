@@ -1,3 +1,4 @@
+import { randomUUID } from 'crypto';
 import { AccountStatus } from './ValueObjects/AccountStatus';
 import { Email } from './ValueObjects/Email';
 import { EmailStatus } from './ValueObjects/EmailStatus';
@@ -6,14 +7,27 @@ import { FullName } from './ValueObjects/FullName';
 import { Password } from './ValueObjects/Password';
 import { UserId } from './ValueObjects/UserId';
 
-export type UserDTO = {
+export type UserPublicDTO = {
   userId: string;
   email: string;
   fullname: string;
   createdAt: Date;
   updatedAt: Date;
 };
-export class Users {
+
+export type UserFullDTO = {
+  userId: string;
+  email: string;
+  firstname: string;
+  lastname: string;
+  password: string;
+  emailStatus: number;
+  accountStatus: number;
+  emailVerificationCode: string;
+  createdAt: Date;
+  updatedAt: Date;
+};
+export class User {
   constructor(
     private userId: UserId,
     private email: Email,
@@ -26,11 +40,11 @@ export class Users {
     private updatedAt: Date,
   ) {}
 
-  toJson(): UserDTO {
+  toJson(): UserPublicDTO {
     return {
       email: this.email.value(),
       userId: this.userId.value(),
-      fullname: this.fullname.value(),
+      fullname: this.fullname.getFullName(),
       createdAt: this.createdAt,
       updatedAt: this.updatedAt,
     };
@@ -68,5 +82,19 @@ export class Users {
 
   getUpdatedAt(): Date {
     return this.updatedAt;
+  }
+
+  static makeFromRawData(userRawData: UserFullDTO, generateId = false): User {
+    return new User(
+      new UserId(generateId ? randomUUID() : userRawData.userId),
+      new Email(userRawData.email),
+      new Password(userRawData.password),
+      new FullName(userRawData.firstname, userRawData.lastname),
+      userRawData.emailStatus,
+      userRawData.accountStatus,
+      new EmailVerificationCode(userRawData.emailVerificationCode),
+      userRawData.createdAt,
+      userRawData.updatedAt,
+    );
   }
 }

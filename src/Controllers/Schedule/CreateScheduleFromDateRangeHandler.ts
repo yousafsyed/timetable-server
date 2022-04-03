@@ -5,6 +5,7 @@ import { CreateScheduleFromDateRangeUseCase } from 'src/Application/CreateSchedu
 import { Schedule } from '../../Domain/Schedule';
 import { ScheduleCriteria } from 'src/Domain/ScheduleCollectionBuilder';
 import { MongoErrorFilters } from '../../Infrastructure/ExceptionFilters/MongoErrorFilters';
+import { UserId } from 'src/Domain/ValueObjects/UserId';
 
 @Controller({
   version: '1',
@@ -32,6 +33,7 @@ export class CreateScheduleFromDateRangeHandler {
       startDate: new Date(createScheduleRequest.startDate),
       endDate: new Date(createScheduleRequest.endDate),
       weeklySchedule: createScheduleRequest.weeklySchedule,
+      userId: new UserId('as'),
     };
   }
 }
