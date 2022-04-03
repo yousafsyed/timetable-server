@@ -14,7 +14,6 @@ import { ScheduleCriteria } from 'src/Domain/ScheduleCollectionBuilder';
 import { MongoErrorFilters } from '../../Infrastructure/ExceptionFilters/MongoErrorFilters';
 import { UserId } from 'src/Domain/ValueObjects/UserId';
 import { JwtAuthGuard } from '../User/JwtAuthGuard';
-import { UserPublicDTO } from 'src/Domain/User';
 
 @Controller({
   version: '1',
