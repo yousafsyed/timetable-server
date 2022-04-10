@@ -13,6 +13,8 @@ import {
   ScheduleSchema,
   ScheduleModel,
 } from '../../Infrastructure/Schema/ScheduleSchema';
+import { GetScheduleByMonthUseCase } from 'src/Application/GetScheduleByMonthUseCase';
+import { GetScheduleByMonthHandler } from './GetScheduleByMonthHandler';
 
 @Module({
   imports: [
@@ -20,7 +22,7 @@ import {
       { name: ScheduleModel.name, schema: ScheduleSchema },
     ]),
   ],
-  controllers: [CreateScheduleFromDateRangeHandler],
+  controllers: [CreateScheduleFromDateRangeHandler, GetScheduleByMonthHandler],
   providers: [
     {
       provide: SCHEDULE_REPOSITORY_TOKEN,
@@ -31,6 +33,7 @@ import {
       useClass: ScheduleCollectionBuilder,
     },
     CreateScheduleFromDateRangeUseCase,
+    GetScheduleByMonthUseCase,
   ],
 })
 export class ScheduleModule {}

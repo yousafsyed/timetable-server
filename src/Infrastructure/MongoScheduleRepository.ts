@@ -6,7 +6,6 @@ import { ScheduleRepository } from '../Domain/ScheduleRepository';
 import { Schedule } from '../Domain/Schedule';
 import { ScheduleDateTime } from '../Domain/ValueObjects/ScheduleDateTime';
 import { ScheduleDescription } from '../Domain/ValueObjects/ScheduleDescription';
-import { ScheduleStatus } from '../Domain/ValueObjects/ScheduleStatus';
 import { ScheduleId } from '../Domain/ValueObjects/ScheduleId';
 import { UserId } from '../Domain/ValueObjects/UserId';
 
@@ -16,16 +15,26 @@ export class MongoScheduleRepository implements ScheduleRepository {
     @InjectModel(ScheduleModel.name) private model: Model<ScheduleDocument>,
   ) {}
 
-  getScheduleByMonth(dateTime: Date): Array<Schedule> {
-    return [
-      new Schedule(
-        new ScheduleId(''),
-        new ScheduleDateTime(dateTime),
-        new ScheduleDescription('sas'),
-        ScheduleStatus.ABSENT,
-        new UserId(''),
-      ),
-    ];
+  async getScheduleByMonth(
+    dateTime: Date,
+    userId: UserId,
+  ): Promise<Schedule[]> {
+    const docs = await this.model.aggregate([
+      {
+        $project: {
+          month: { $month: '$dateTime' },
+          hour: { $hour: '$dateTime' },
+          scheduleDescription: 1,
+          dateTime: 1,
+          userId: 1,
+          scheduleStatus: 1,
+        },
+      },
+      { $match: { month: dateTime.getMonth() + 1, userId: userId.value() } },
+    ]);
+    return docs.map((doc: ScheduleDocument): Schedule => {
+      return this.makeScheduleFromDocuement(doc);
+    });
   }
 
   async persist(schedule: Schedule): Promise<Schedule> {
